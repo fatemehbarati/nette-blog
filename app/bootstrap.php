@@ -5,6 +5,8 @@ require __DIR__ . '/../vendor/autoload.php';
 $configurator = new Nette\Configurator;
 
 //$configurator->setDebugMode('23.75.345.200'); // enable for your remote IP
+//for production mode you should uncomment below line
+//$configurator->setDebugMode(false);
 $configurator->enableTracy(__DIR__ . '/../log');
 
 $configurator->setTimeZone('Europe/Prague');
