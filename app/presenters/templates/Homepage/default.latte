@@ -3,11 +3,15 @@
 
     {foreach $posts as $post}
         <div class="post">
+            {*<h2><a href="{link Post:show $post->id}">{$post->title}</a></h2>*}
+            {* same as above *}
+             <h2><a n:href="Post:show $post->id">{$post->title}</a></h2>
+
             <div class="date">{$post->created_at|date:'F j, Y'}</div>
 
             <h2>{$post->title}</h2>
 
-            <div>{$post->content}</div>
+            <div class="post">{$post->content}</div>
         </div>
     {/foreach}
     {* same as above *}
@@ -20,4 +24,6 @@
         <div>{$post->content}</div>
     </div>
     *}
+
+    <a n:href="Post:create">Create New Post</a>
 {/block}
