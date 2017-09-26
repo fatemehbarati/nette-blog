@@ -49,16 +49,16 @@ class PostPresenter extends Presenter
         return $form;
     }
 
-    public function commentFormSucceeded($form, $value)
+    public function commentFormSucceeded($form, $values)
     {
         $postId = $this->getParameter('postId');
 
         $this->database->table('comments')->insert(
             array(
                 'post_id' => $postId,
-                'name' => $value->name,
-                'email' => $value->email,
-                'content' => $value->content
+                'name' => $values->name,
+                'email' => $values->email,
+                'content' => $values->content
             )
         );
 
@@ -81,9 +81,31 @@ class PostPresenter extends Presenter
 
     public function postFormSucceeded($form, $values)
     {
-        $post = $this->database->table('posts')->insert($values);
+        $postId = $this->getParameter('postId');
+
+        if($postId){
+            $post = $this->database->table('posts')->get($postId);
+            $post->update($values);
+        }
+        else
+        {
+            $post = $this->database->table('posts')->insert($values);
+        }
+
 
         $this->flashMessage("Post was published", 'success');
         $this->redirect('show', $post->id);
+    }
+
+    public function actionEdit($postId)
+    {
+        $post = $this->database->table('posts')->get($postId);
+
+        if(!$post)
+        {
+            $this->error('Post not found!');
+        }
+
+        $this['postForm']->setDefaults($post->toArray());
     }
 }
