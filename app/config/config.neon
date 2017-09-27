@@ -18,3 +18,7 @@ database:
     dsn: 'mysql:host=127.0.0.1;dbname=quickstart'
     user: root
     password:
+
+security:
+    users:
+        admin: secret  # user 'admin', password '123'

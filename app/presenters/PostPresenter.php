@@ -81,6 +81,10 @@ class PostPresenter extends Presenter
 
     public function postFormSucceeded($form, $values)
     {
+        if(!$this->getUser()->isLoggedIn()) {
+            $this->error('You need to log in to create or edit posts');
+        }
+
         $postId = $this->getParameter('postId');
 
         if($postId){
@@ -99,6 +103,10 @@ class PostPresenter extends Presenter
 
     public function actionEdit($postId)
     {
+        if(!$this->getUser()->isLoggedIn()){
+            $this->redirect('Sign:In');
+        }
+
         $post = $this->database->table('posts')->get($postId);
 
         if(!$post)
@@ -108,4 +116,12 @@ class PostPresenter extends Presenter
 
         $this['postForm']->setDefaults($post->toArray());
     }
+
+    public function actionCreate()
+    {
+        if(!$this->getUser()->isLoggedIn()){
+            $this->redirect('Sign:In');
+        }
+    }
+
 }

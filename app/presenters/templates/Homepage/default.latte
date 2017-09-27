@@ -25,5 +25,5 @@
     </div>
     *}
 
-    <a n:href="Post:create">Create New Post</a>
+    <a n:href="Post:create" n:if="$user->loggedIn">Create New Post</a>
 {/block}
