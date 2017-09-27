@@ -13,6 +13,7 @@ session:
 
 services:
 	router: App\RouterFactory::createRouter
+	- App\Model\ArticleManager
 
 database:
     dsn: 'mysql:host=127.0.0.1;dbname=quickstart'
