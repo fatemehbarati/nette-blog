@@ -37,7 +37,8 @@ class SignPresenter extends Presenter
             $this->getUser()->login($values->username, $values->password);
             $this->redirect('Homepage:default');
         }catch (AuthenticationException $exception){
-            $form->addError('Username or Password is not correct!');
+            $form->addError($exception->getMessage());
+//            $form->addError('Username or Password is not correct!');
         }
     }
 

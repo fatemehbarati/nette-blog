@@ -20,6 +20,6 @@ database:
     user: root
     password:
 
-security:
-    users:
-        admin: secret  # user 'admin', password '123'
+#security:
+#    users:
+#        admin: secret  # user 'admin', password '123'
