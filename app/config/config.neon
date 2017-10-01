@@ -1,4 +1,5 @@
 parameters:
+    #appDir: App\
 
 
 application:
@@ -22,6 +23,20 @@ database:
     dsn: 'mysql:host=127.0.0.1;dbname=quickstart'
     user: root
     password:
+
+doctrine:
+    user: root
+    password:
+    dbname: quickstart
+    metadata:
+        App: %appDir%/model/entity
+
+extensions:
+    console: Kdyby\Console\DI\ConsoleExtension
+    events: Kdyby\Events\DI\EventsExtension
+    annotations: Kdyby\Annotations\DI\AnnotationsExtension
+    doctrine: Kdyby\Doctrine\DI\OrmExtension
+
 
 #security:
 #    users:
