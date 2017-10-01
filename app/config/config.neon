@@ -13,7 +13,10 @@ session:
 
 services:
 	router: App\RouterFactory::createRouter
+	security.Authenticator: App\Model\MyAuthenticator
 	- App\Model\ArticleManager
+	- App\Model\AuthorizatorFactory::create
+	- App\Model\UserManager
 
 database:
     dsn: 'mysql:host=127.0.0.1;dbname=quickstart'
