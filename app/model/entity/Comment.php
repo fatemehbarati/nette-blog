@@ -1,14 +1,13 @@
 <?php
 namespace App\Model\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Model\Entity\Repository\PostRepository")
- * @ORM\Table(name="posts")
+ * @ORM\Entity(repositoryClass="App\Model\Entity\Repository\CommentRepository")
+ * @ORM\Table(name="comments")
  */
-class Post
+class Comment
 {
     /**
      * @ORM\Id
@@ -20,7 +19,12 @@ class Post
     /**
      * @ORM\Column(type="string")
      */
-    public $title;
+    public $name;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    public $email;
 
     /**
      * @ORM\Column(type="text")
@@ -33,12 +37,9 @@ class Post
     public $created_at;
 
     /**
-     * @ORM\OneToMany(targetEntity="Comment", mappedBy="post")
+     * @ORM\ManyToOne(targetEntity="Post", inversedBy="comments")
+     * @ORM\JoinColumn(name="post_id", referencedColumnName="id")
      */
-    public $comments;
+    public $post;
 
-    public function __construct()
-    {
-        $this->comments = new ArrayCollection();
-    }
 }
