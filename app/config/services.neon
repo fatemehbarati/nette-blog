@@ -1,0 +1,31 @@
+
+services:
+	router: App\RouterFactory::createRouter
+	security.Authenticator: App\Model\MyAuthenticator
+	- App\Model\AuthorizatorFactory::create
+	- App\Model\UserManager
+	- App\Model\Entity\Post
+	- App\Forms\PostForm
+	- App\Model\Entity\Comment
+	- App\Model\CommentModel
+	- App\Forms\CommentForm
+
+	blog_presenter_post:
+	    class: App\Presenters\PostPresenter
+	    tags:
+	        - App\Forms\PostForm
+#	        - ['blog_repo_post']
+#	        - ['blog_repo_comment']
+	blog_model_post:
+	    class: App\Model\PostModel
+
+	blog_repo_post:
+	    class: App\Model\Entity\Repository\PostRepository
+	    tags:
+	        doctrine.repositoryEntity: App\Model\Entity\Post
+
+	blog_repo_comment:
+	    class: App\Model\Entity\Repository\CommentRepository
+	    tags:
+	        doctrine.repositoryEntity: App\Model\Entity\Comment
+

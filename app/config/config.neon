@@ -1,3 +1,6 @@
+includes:
+    - services.neon
+
 parameters:
     #appDir: App\
 
@@ -11,25 +14,19 @@ application:
 session:
 	expiration: 14 days
 
-
-services:
-	router: App\RouterFactory::createRouter
-	security.Authenticator: App\Model\MyAuthenticator
-	- App\Model\ArticleManager
-	- App\Model\AuthorizatorFactory::create
-	- App\Model\UserManager
-
 database:
     dsn: 'mysql:host=127.0.0.1;dbname=quickstart'
     user: root
     password:
 
 doctrine:
+    host: localhost
     user: root
     password:
     dbname: quickstart
+    driver: pdo_mysql
     metadata:
-        App: %appDir%/model/entity
+        App: %appDir%/Model
 
 extensions:
     console: Kdyby\Console\DI\ConsoleExtension
