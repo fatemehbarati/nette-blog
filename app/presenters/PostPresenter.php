@@ -8,6 +8,12 @@
 
 namespace App\Presenters;
 
+use App\Forms\CommentForm;
+use App\Forms\PostForm;
+use App\Model\Entity\Comment;
+use App\Model\Entity\Repository\CommentRepository;
+use App\Model\Entity\Repository\PostRepository;
+use App\Model\PostModel;
 use Nette\Application\ForbiddenRequestException;
 use Nette\Application\UI\Form;
 use Nette\Application\UI\Presenter;
@@ -16,69 +22,79 @@ use Nette\Database\Context;
 class PostPresenter extends Presenter
 {
 
-    /** @var  Context */
-    private $database;
+    /** @var  PostForm */
+    public $postForm;
 
-    public function __construct(Context $database)
+    /** @var  PostRepository */
+    public $postRepo;
+
+    /** @var CommentRepository  */
+    public $commentRepo;
+
+    /** @var  CommentForm */
+    public $commentForm;
+
+    public function __construct(PostForm $postForm, PostRepository $postRepo, CommentRepository $commentRepo, CommentForm $commentForm)
     {
-        $this->database = $database;
+
+        $this->postForm = $postForm;
+        $this->postRepo = $postRepo;
+        $this->commentRepo = $commentRepo;
+        $this->commentForm = $commentForm;
     }
 
     public function renderShow($postId){
-        $post = $this->database->table('posts')->get($postId);
+        $post = $this->postRepo->find($postId);
 
         if(!$post){
             $this->error('Post Not Found!');
         }
 
         $this->template->post = $post;
-        $this->template->comments = $post->related('comments')->order('created_at');
+        $this->template->comments = $post->comments;
+
     }
 
     protected function createComponentCommentForm()
     {
-        $form = new Form;
 
-        $form->addText('name', 'Your Name:')->setRequired();
-        $form->addText('email', 'Email:');
-        $form->addTextArea('content', 'Comment:')->setRequired();
-        $form->addSubmit('send', 'Publish Comment');
-
-        $form->onSuccess[] = [$this, 'commentFormSucceeded'];
+        $form = $this->commentForm->create();
 
         return $form;
     }
 
-    public function commentFormSucceeded($form, $values)
+    public function actionEdit($postId)
     {
-        $postId = $this->getParameter('postId');
+        if(!$this->getUser()->isLoggedIn()){
+            $this->redirect('Sign:In');
+        }
 
-        $this->database->table('comments')->insert(
-            array(
-                'post_id' => $postId,
-                'name' => $values->name,
-                'email' => $values->email,
-                'content' => $values->content
-            )
-        );
+        $post = $this->postRepo->find($postId);
 
-        $this->flashMessage('Thank you for your comment', 'success');
-        $this->redirect('this');
+        if(!$post)
+        {
+            $this->error('Post not found!');
+        }
+
+        $this['postForm']->setDefaults(get_object_vars($post));
     }
 
-    protected function createComponentPostForm()
+    public function actionCreate()
     {
-        $form = new Form();
+        if(!$this->getUser()->isLoggedIn()){
+            $this->redirect('Sign:In');
+        }
+    }
 
-        $form->addText('title', 'Title : ')->setRequired();
-        $form->addTextArea('content', 'Content : ')->setRequired();
+    public function createComponentPostForm()
+    {
 
-        $form->addSubmit('save', 'Publish and Save');
-        $form->onSuccess[] = [$this , 'postFormSucceeded'];
+        $form = $this->postForm->create();
 
         return $form;
     }
 
+    /*
     public function postFormSucceeded($form, $values)
     {
         if(!$this->getUser()->isLoggedIn()) {
@@ -100,28 +116,7 @@ class PostPresenter extends Presenter
         $this->flashMessage("Post was published", 'success');
         $this->redirect('show', $post->id);
     }
+    */
 
-    public function actionEdit($postId)
-    {
-        if(!$this->getUser()->isLoggedIn()){
-            $this->redirect('Sign:In');
-        }
-
-        $post = $this->database->table('posts')->get($postId);
-
-        if(!$post)
-        {
-            $this->error('Post not found!');
-        }
-
-        $this['postForm']->setDefaults($post->toArray());
-    }
-
-    public function actionCreate()
-    {
-        if(!$this->getUser()->isLoggedIn()){
-            $this->redirect('Sign:In');
-        }
-    }
 
 }
