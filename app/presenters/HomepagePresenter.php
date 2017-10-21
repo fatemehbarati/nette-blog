@@ -19,6 +19,7 @@ class HomepagePresenter extends Nette\Application\UI\Presenter
 
     public function renderDefault(){
 
+
 //        if (!$this->getUser()->isAllowed('article')){
 //            throw new Nette\Application\ForbiddenRequestException('You do not have permission to this page.');
 //        }

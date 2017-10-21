@@ -37,4 +37,4 @@ extensions:
 
 #security:
 #    users:
-#        admin: secret  # user 'admin', password '123'
+#        admin: 123  # user 'admin', password '123'

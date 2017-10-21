@@ -18,14 +18,14 @@ use Nette\Utils\ArrayHash;
 class SignPresenter extends Presenter
 {
 
-    /** @var  UserManager */
-    private $userManager;
+    /** @var UserManager @inject*/
+    public $userManager;
 
-    public function __construct(UserManager $userManager)
-    {
-
-        $this->userManager = $userManager;
-    }
+//    public function __construct(UserManager $userManager)
+//    {
+//
+//        $this->userManager = $userManager;
+//    }
 
     protected function createComponentSignInForm()
     {

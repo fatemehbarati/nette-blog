@@ -18,15 +18,12 @@ use Nette\Application\UI\Form;
 class CommentForm implements ICommentFormFactory
 {
 
-    /** @var Application  */
-    public $application;
-
-    /** @var  CommentModel */
-    public $commentModel;
-
-    /** @var  PostModel */
-    public $postModel;
-
+    /**
+     * CommentForm constructor.
+     * @param Application $application
+     * @param CommentModel $commentModel
+     * @param PostModel $postModel
+     */
     public function __construct(Application $application, CommentModel $commentModel, PostModel $postModel)
     {
 
@@ -51,6 +48,7 @@ class CommentForm implements ICommentFormFactory
 
     public function commentFormSucceeded(Form $form, $values)
     {
+
         $post_id = $this->application->getPresenter()->getParameter('postId');
 
         $values['post'] = $this->postModel->getPostById($post_id);

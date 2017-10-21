@@ -8,11 +8,12 @@ use Nette\Application\UI\Form;
 
 class PostForm implements IPostFormFactory
 {
-    /** @var PostModel */
-    public $postModel;
 
-    public $application;
-
+    /**
+     * PostForm constructor.
+     * @param PostModel $postModel
+     * @param Application $application
+     */
     public function __construct(PostModel $postModel, Application $application)
     {
 

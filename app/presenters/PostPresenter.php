@@ -22,26 +22,26 @@ use Nette\Database\Context;
 class PostPresenter extends Presenter
 {
 
-    /** @var  PostForm */
+    /** @var  PostForm @inject */
     public $postForm;
 
-    /** @var  PostRepository */
+    /** @var  PostRepository @inject */
     public $postRepo;
 
-    /** @var CommentRepository  */
+    /** @var CommentRepository @inject  */
     public $commentRepo;
 
-    /** @var  CommentForm */
+    /** @var CommentForm @inject */
     public $commentForm;
 
-    public function __construct(PostForm $postForm, PostRepository $postRepo, CommentRepository $commentRepo, CommentForm $commentForm)
-    {
-
-        $this->postForm = $postForm;
-        $this->postRepo = $postRepo;
-        $this->commentRepo = $commentRepo;
-        $this->commentForm = $commentForm;
-    }
+//    public function __construct(PostForm $postForm, PostRepository $postRepo, CommentRepository $commentRepo, CommentForm $commentForm)
+//    {
+//
+//        $this->postForm = $postForm;
+//        $this->postRepo = $postRepo;
+//        $this->commentRepo = $commentRepo;
+//        $this->commentForm = $commentForm;
+//    }
 
     public function renderShow($postId){
         $post = $this->postRepo->find($postId);
